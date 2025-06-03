@@ -1,5 +1,9 @@
 # Compiled class file
 *.class
+*.dex
+
+# Kotlin compiler
+.kotlin
 
 # Log file
 *.log
@@ -23,5 +27,42 @@
 hs_err_pid*
 replay_pid*
 
-# Kotlin Gradle plugin data, see https://kotlinlang.org/docs/whatsnew20.html#new-directory-for-kotlin-data-in-gradle-projects
-.kotlin/
+# IDEA/Android Studio project files
+*.iml
+.idea/
+**/.idea/
+!.idea/copyright
+# Keep the code styles.
+!/.idea/codeStyles
+!/.idea/codeStyles/Project.xml
+!/.idea/codeStyles/codeStyleConfig.xml
+!/.idea/detekt.xml
+
+# Gradle cache
+.gradle
+local.properties
+
+# Android Studio captures folder
+captures/
+
+# generated files
+bin/
+gen/
+out/
+build/
+
+# track build-logic module
+!**/edu/stanford/spezi/build
+
+# built application files
+*.apk
+*.ap_
+
+# Other files
+.DS_Store
+
+# fastlane
+play-store-credentials.json
+keystore.jks
+app/release/*
+app/debug/*
