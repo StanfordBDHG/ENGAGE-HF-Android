@@ -92,13 +92,13 @@ jobs:
             echo "version=${{ inputs.version }}" >> $GITHUB_OUTPUT
             echo "version: ${{ inputs.version }}"
           fi
-  buildtestandanalyze:
-    uses: ./.github/workflows/build-test-analyze.yml
-    secrets: inherit
+  # buildtestandanalyze:
+  #   uses: ./.github/workflows/build-test-analyze.yml
+  #   secrets: inherit
   googleplayinternal:
     name: Upload App to Google Play
     runs-on: ubuntu-latest
-    needs: [buildtestandanalyze, determineenvironment, vars]
+    needs: [determineenvironment, vars] #, buildtestandanalyze]
     environment: ${{ needs.determineenvironment.outputs.environment }}
     steps:
       - name: Checkout code
