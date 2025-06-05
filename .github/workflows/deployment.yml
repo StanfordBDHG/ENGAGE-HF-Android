@@ -12,16 +12,16 @@ on:
   push:
     branches:
       - main
+      - deployment
   workflow_dispatch:
     inputs:
       environment:
         description: |
           The GitHub deployment environment.
         required: true
-        default: 'internal'
+        default: 'staging'
         type: choice
         options:
-          - internal
           - staging
           - production
       version:
@@ -132,4 +132,4 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           SERVICE_ACCOUNT_JSON_KEY: ${{ secrets.SERVICE_ACCOUNT_JSON_KEY }}
-        run: bundle exec fastlane internal environment:"${{ needs.determineenvironment.outputs.environment }}" applicationid:"${{ needs.vars.outputs.appidentifier }}" versionname:"${{ needs.vars.outputs.version }}"
+        run: bundle exec fastlane deployment environment:"${{ needs.determineenvironment.outputs.environment }}" applicationid:"${{ needs.vars.outputs.appidentifier }}" versionname:"${{ needs.vars.outputs.version }}"

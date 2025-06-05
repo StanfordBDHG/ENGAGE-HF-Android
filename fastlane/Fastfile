@@ -32,8 +32,8 @@ platform :android do
     gradle(task: "connectedCheck")
   end
 
-  desc "Deploy a new version to the Google Play (Internal)"
-  lane :internal do |options|
+  desc "Deploy a new version to the Google Play"
+  lane :deployment do |options|
     environment = options[:environment].to_s.strip.empty? ? APP_CONFIG[:default_environment] : options[:environment]
     applicationid = options[:applicationid].to_s.strip.empty? ? APP_CONFIG[:default_application_id] : options[:applicationid]
     version_name = options[:versionname].to_s.strip.empty? ? APP_CONFIG[:default_version_name] : options[:versionname]
