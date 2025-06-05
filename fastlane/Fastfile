@@ -37,12 +37,10 @@ platform :android do
     environment = options[:environment].to_s.strip.empty? ? APP_CONFIG[:default_environment] : options[:environment]
     applicationid = options[:applicationid].to_s.strip.empty? ? APP_CONFIG[:default_application_id] : options[:applicationid]
     version_name = options[:versionname].to_s.strip.empty? ? APP_CONFIG[:default_version_name] : options[:versionname]
-    track = environment == "staging" ? "internal" : "production"
 
     UI.message("Using environment: #{environment}")
     UI.message("Using application id: #{applicationid}")
     UI.message("Using version name: #{version_name}")
-    UI.message("Using Google Play Store track: #{track}")
 
     def fetch_max_version_code(track, applicationid)
       version_codes = google_play_track_version_codes(
