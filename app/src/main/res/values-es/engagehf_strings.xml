@@ -152,7 +152,7 @@
     <string name="phone_number_verification_success_message">Número de teléfono agregado correctamente a su cuenta.</string>
     <string name="phone_numbers_title">Números de teléfono</string>
     <string name="phone_number_add">Agregar número de teléfono</string>
-    <string name="phone_number_deletion_error_message">"No se pudo eliminar su número de teléfono. Inténtelo de nuevo. "</string>
+    <string name="phone_number_deletion_error_message">No se pudo eliminar su número de teléfono. Inténtelo de nuevo.</string>
     <string name="phone_number_verified_phone_numbers_header_title">Sus números de teléfono</string>
     <string name="phone_number_empty_list_message">Sus números de teléfono aparecerán aquí una vez configurados Presione el botón (+) para agregar un nuevo número de teléfono.</string>
     <string name="message_action_play_video">Reproducir video</string>
