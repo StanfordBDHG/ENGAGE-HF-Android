@@ -69,7 +69,7 @@
     <string name="home_settings_action">Configuración</string>
     <string name="paired_devices_hint_description">Los dispositivos emparejados aparecerán aquí una vez configurados. Pulse el botón (+) para emparejar un nuevo dispositivo.</string>
     <string name="delete_health_record_success_message">Historial de salud eliminado correctamente.</string>
-    <string name="notifications">Benachrichtigungen</string>
+    <string name="notifications">Notificaciones</string>
     <string name="heart_rate_description_part_1">La frecuencia cardíaca es el número de veces que su corazón late por minuto. Controlar su frecuencia cardíaca ayuda a su equipo médico a ver cómo está respondiendo a sus medicamentos y si es necesario cambiar alguno.</string>
     <string name="heart_rate_description_part_2">"La frecuencia cardíaca normal de cada persona es diferente. Una frecuencia cardíaca inferior a 50 puede causarle mareos. Si su frecuencia cardíaca aumenta repentinamente y se mantiene alta, debe informar a su equipo médico. "</string>
     <string name="heart_rate_description_part_3">Se controlará su frecuencia cardíaca al tomarse la presión arterial. Para obtener más información, vea el video sobre la frecuencia cardíaca.</string>
