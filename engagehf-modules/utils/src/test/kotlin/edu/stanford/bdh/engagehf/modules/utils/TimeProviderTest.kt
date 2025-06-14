@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import java.time.Instant
 import java.time.LocalTime
+import java.time.ZonedDateTime
 
 class TimeProviderTest {
     private val provider = TimeProvider()
@@ -50,5 +51,17 @@ class TimeProviderTest {
         assertThat(result.hour).isAtMost(current.hour + threshold)
         assertThat(result.minute).isAtLeast(current.minute)
         assertThat(result.minute).isAtMost(current.minute + threshold)
+    }
+
+    @Test
+    fun `it should indicate correct zone offset`() {
+        // given
+        val expectedOffset = ZonedDateTime.now().offset
+
+        // when
+        val result = provider.currentOffset()
+
+        // then
+        assertThat(result).isEqualTo(expectedOffset)
     }
 }
