@@ -107,4 +107,5 @@
     <string name="dizziness_score_title">Schwindel Score</string>
     <string name="dizziness_score_description">Es ist wichtig, Ihren Schwindel im Auge zu behalten, denn Schwindel kann eine Nebenwirkung Ihres Herzens oder Ihrer Herzmedikamente sein.</string>
     <string name="dismiss_message">Nachricht entfernen</string>
+    <string name="bpm">bpm</string>
 </resources>
