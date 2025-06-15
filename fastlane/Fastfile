@@ -48,16 +48,21 @@ platform :android do
     UI.message("Using version name: #{version_name}")
 
     def fetch_max_version_code(track, applicationid)
-      version_codes = google_play_track_version_codes(
-        package_name: applicationid,
-        track: track,
-        json_key_data: APP_CONFIG[:json_key_data]
-      )
+      begin
+        version_codes = google_play_track_version_codes(
+          package_name: applicationid,
+          track: track,
+          json_key_data: APP_CONFIG[:json_key_data]
+        )
 
-      if version_codes.nil? || version_codes.empty?
+        if version_codes.nil? || version_codes.empty?
+          0
+        else
+          version_codes.max
+        end
+      rescue => e
+        UI.error("Failed to fetch version codes for track '#{track}': #{e.message}")
         0
-      else
-        version_codes.max
       end
     end
 
