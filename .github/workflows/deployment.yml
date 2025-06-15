@@ -100,6 +100,11 @@ jobs:
           echo "appidentifier: ${{ vars.APP_IDENTIFIER }}"
   buildtestandanalyze:
     uses: ./.github/workflows/build-test-analyze.yml
+    permissions:
+      actions: read
+      contents: read
+      packages: read
+      security-events: write
     secrets: inherit
   googleplaydeployment:
     name: Upload App to Google Play

@@ -34,10 +34,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     permissions:
-      security-events: write
-      packages: read
       actions: read
       contents: read
+      packages: read
+      security-events: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
