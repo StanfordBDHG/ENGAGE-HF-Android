@@ -21,9 +21,10 @@ jobs:
     name: Build and Test
     uses: ./.github/workflows/deployment.yml
     permissions:
-      contents: read
-      checks: write
       actions: read
+      checks: write
+      contents: read
+      packages: read
       security-events: write
     secrets: inherit
     with:
