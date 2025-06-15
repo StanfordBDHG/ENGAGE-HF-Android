@@ -21,9 +21,10 @@ on:
         default: 'internal'
         type: choice
         options:
-          - internal
-          - staging
           - production
+          - beta
+          - alpha
+          - internal
       version:
         description: |
           The semantic version of the app that should be released.
@@ -36,7 +37,7 @@ on:
           The GitHub deployment environment.
         required: false
         type: string
-        default: staging
+        default: internal
       version:
         description: |
           The semantic version of the app that should be released.
@@ -59,8 +60,8 @@ jobs:
         run: |
           echo "Determining the Environment ..."
           if [[ -z "${{ inputs.environment }}" ]]; then
-            echo "environment=staging" >> $GITHUB_OUTPUT
-            echo "environment: staging"
+            echo "environment=internal" >> $GITHUB_OUTPUT
+            echo "environment: internal"
           else
             echo "environment=${{ inputs.environment }}" >> $GITHUB_OUTPUT
             echo "environment: ${{ inputs.environment }}"
@@ -80,25 +81,30 @@ jobs:
         id: get-latest-tag
         with:
           semver_only: true
-          initial_version: "2.0.0"
+          initial_version: "1.0.0"
       - id: script
         run: |
           echo "Injecting Environment Variables In Deployment Workflow ..."
-          echo "appidentifier: ${{ vars.APP_IDENTIFIER }}"
           if [[ -z "${{ inputs.version }}" ]]; then
-            echo "version=${{ steps.get-latest-tag.outputs.tag }}" >> $GITHUB_OUTPUT
-            echo "version: ${{ steps.get-latest-tag.outputs.tag }}"
+            IFS='.' read -r MAJOR MINOR PATCH <<< "${{ steps.get-latest-tag.outputs.tag }}"
+
+            PATCH=$((PATCH + 1))
+            NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
+
+            echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+            echo "version: $NEW_VERSION"
           else
             echo "version=${{ inputs.version }}" >> $GITHUB_OUTPUT
             echo "version: ${{ inputs.version }}"
           fi
+          echo "appidentifier: ${{ vars.APP_IDENTIFIER }}"
   buildtestandanalyze:
     uses: ./.github/workflows/build-test-analyze.yml
     secrets: inherit
-  googleplayinternal:
+  googleplaydeployment:
     name: Upload App to Google Play
     runs-on: ubuntu-latest
-    needs: [buildtestandanalyze, determineenvironment, vars]
+    needs: [determineenvironment, vars, buildtestandanalyze]
     environment: ${{ needs.determineenvironment.outputs.environment }}
     steps:
       - name: Checkout code
@@ -132,4 +138,4 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           SERVICE_ACCOUNT_JSON_KEY: ${{ secrets.SERVICE_ACCOUNT_JSON_KEY }}
-        run: bundle exec fastlane internal environment:"${{ needs.determineenvironment.outputs.environment }}" applicationid:"${{ needs.vars.outputs.appidentifier }}" versionname:"${{ needs.vars.outputs.version }}"
+        run: bundle exec fastlane deployment environment:"${{ needs.determineenvironment.outputs.environment }}" applicationid:"${{ needs.vars.outputs.appidentifier }}" versionname:"${{ needs.vars.outputs.version }}"
