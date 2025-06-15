@@ -8,16 +8,18 @@ import androidx.health.connect.client.units.Mass
 import androidx.health.connect.client.units.Pressure
 import edu.stanford.bdh.engagehf.bluetooth.service.Measurement
 import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.RecordToObservationMapper
+import edu.stanford.bdh.engagehf.modules.utils.TimeProvider
 import org.hl7.fhir.r4.model.Observation
+import java.time.Instant
 import java.time.LocalDateTime
-import java.time.ZonedDateTime
 import javax.inject.Inject
 
 internal class MeasurementToObservationMapper @Inject constructor(
     private val recordToObservationMapper: RecordToObservationMapper,
+    private val timeProvider: TimeProvider,
 ) {
 
-    private val currentZoneOffset get() = ZonedDateTime.now().offset
+    private val currentZoneOffset get() = timeProvider.currentOffset()
 
     fun map(measurement: Measurement): List<Observation> {
         return mapToRecords(measurement)
@@ -40,28 +42,21 @@ internal class MeasurementToObservationMapper @Inject constructor(
         return BloodPressureRecord(
             systolic = Pressure.millimetersOfMercury(measurement.systolic.toDouble()),
             diastolic = Pressure.millimetersOfMercury(measurement.diastolic.toDouble()),
-            time = createLocalDateTime(measurement).toInstant(
-                currentZoneOffset
-            ),
+            time = createInstant(measurement),
             zoneOffset = currentZoneOffset
         )
     }
 
     private fun createHeartRateRecord(measurement: Measurement.BloodPressure): HeartRateRecord {
+        val time = createInstant(measurement)
         return HeartRateRecord(
-            startTime = createLocalDateTime(measurement).toInstant(
-                currentZoneOffset
-            ),
-            endTime = createLocalDateTime(measurement).toInstant(
-                currentZoneOffset
-            ),
+            startTime = time,
+            endTime = time,
             startZoneOffset = currentZoneOffset,
             endZoneOffset = currentZoneOffset,
             samples = listOf(
                 HeartRateRecord.Sample(
-                    time = createLocalDateTime(measurement).toInstant(
-                        currentZoneOffset
-                    ),
+                    time = time,
                     beatsPerMinute = measurement.pulseRate.toLong()
                 )
             )
@@ -71,19 +66,22 @@ internal class MeasurementToObservationMapper @Inject constructor(
     private fun createWeightRecord(measurement: Measurement.Weight): WeightRecord {
         return WeightRecord(
             weight = Mass.kilograms(measurement.weight),
-            time = measurement.zonedDateTime?.toInstant() ?: ZonedDateTime.now().toInstant(),
+            time = measurement.zonedDateTime?.toInstant() ?: timeProvider.nowInstant(),
             zoneOffset = currentZoneOffset
         )
     }
 
-    private fun createLocalDateTime(measurement: Measurement.BloodPressure): LocalDateTime {
-        return LocalDateTime.of(
-            measurement.timestampYear,
-            measurement.timestampMonth,
-            measurement.timestampDay,
-            measurement.timeStampHour,
-            measurement.timeStampMinute,
-            measurement.timeStampSecond
-        )
+    private fun createInstant(measurement: Measurement.BloodPressure): Instant {
+        return runCatching {
+            LocalDateTime.of(
+                measurement.timestampYear,
+                measurement.timestampMonth,
+                measurement.timestampDay,
+                measurement.timeStampHour,
+                measurement.timeStampMinute,
+                measurement.timeStampSecond
+            ).toInstant(currentZoneOffset)
+            // using now instant in case device sent an invalid timestamp
+        }.getOrDefault(timeProvider.nowInstant())
     }
 }
