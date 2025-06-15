@@ -38,6 +38,11 @@ platform :android do
     applicationid = options[:applicationid].to_s.strip.empty? ? APP_CONFIG[:default_application_id] : options[:applicationid]
     version_name = options[:versionname].to_s.strip.empty? ? APP_CONFIG[:default_version_name] : options[:versionname]
 
+    valid_environments = %w[production beta alpha internal]
+    unless valid_environments.include?(environment)
+      UI.user_error!("Invalid environment '#{environment}'. Must be one of: #{valid_environments.join(', ')}")
+    end
+
     UI.message("Using environment: #{environment}")
     UI.message("Using application id: #{applicationid}")
     UI.message("Using version name: #{version_name}")
@@ -57,9 +62,11 @@ platform :android do
     end
 
     production_version_code = fetch_max_version_code('production', applicationid)
+    beta_version_code = fetch_max_version_code('beta', applicationid)
+    alpha_version_code = fetch_max_version_code('alpha', applicationid)
     internal_version_code = fetch_max_version_code('internal', applicationid)
 
-    previous_version_code = [production_version_code, internal_version_code].max
+    previous_version_code = [production_version_code, beta_version_code, alpha_version_code, internal_version_code].max
     current_version_code = previous_version_code + 1
 
     UI.message("Previous version code: #{previous_version_code}")
@@ -81,7 +88,7 @@ platform :android do
 
     upload_to_play_store(
       package_name: applicationid,
-      track: track,
+      track: environment,
       json_key_data: APP_CONFIG[:json_key_data]
     )
   end
