@@ -147,8 +147,8 @@
     <string name="send_verification_message_button_title">Enviar mensaje de verificación</string>
     <string name="search_your_country_placeholder">🔍 Buscar su país</string>
     <string name="no_country_codes_found">No se encontraron códigos de país</string>
-    <string name="error_sending_verification_message_message">Error al enviar el mensaje de verificación</string>
-    <string name="error_checking_verification_code_message">Error al enviar el código de verificación</string>
+    <string name="error_sending_verification_message_message">Se produjo un error al iniciar el proceso de verificación</string>
+    <string name="error_checking_verification_code_message">Se produjo un error al verificar su número de teléfono</string>
     <string name="phone_number_verification_success_message">Número de teléfono agregado correctamente a su cuenta.</string>
     <string name="phone_numbers_title">Números de teléfono</string>
     <string name="phone_number_add">Agregar número de teléfono</string>
@@ -172,7 +172,7 @@
     <string name="understanding_your_weight">Comprender su peso</string>
     <string name="failed_to_observe_health_records">No se pudieron cargar los registros de salud</string>
     <string name="error_loading_video">Error al cargar el video</string>
-    <string name="consent_markdown_text">\\n# De consentimiento\\nLa aplicación móvil ENGAGE-HF para Android se conecta a dispositivos externos mediante Bluetooth para registrar información personal de salud, como peso, frecuencia cardíaca y presión arterial.\\n\\nSu información personal solo se compartirá con el equipo de investigación que realiza el estudio.\\n</string>
+    <string name="consent_markdown_text">" # De consentimiento La aplicación móvil ENGAGE-HF para Android se conecta a dispositivos externos mediante Bluetooth para registrar información personal de salud, como peso, frecuencia cardíaca y presión arterial.  Su información personal solo se compartirá con el equipo de investigación que realiza el estudio. "</string>
     <string name="invitation_code_description_message">Ingrese su código de invitación para unirse al estudio de ENGAGE-HF.</string>
     <string name="onboarding_area_1_title">Únase al estudio</string>
     <string name="onboarding_area_1_description">Conéctese a su estudio mediante un código de invitación de los investigadores.</string>

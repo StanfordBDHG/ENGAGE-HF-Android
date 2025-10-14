@@ -149,8 +149,8 @@
     <string name="send_verification_message_button_title">Send Verification Message</string>
     <string name="search_your_country_placeholder">🔍 Search your country</string>
     <string name="no_country_codes_found">No country codes found</string>
-    <string name="error_sending_verification_message_message">An error occurred sending the verification message</string>
-    <string name="error_checking_verification_code_message">An error occurred sending the verification code</string>
+    <string name="error_sending_verification_message_message">An error occurred while starting the verification process</string>
+    <string name="error_checking_verification_code_message">An error occurred while verifying your phone number</string>
     <string name="phone_number_verification_success_message">Phone number added successfully to your account.</string>
     <string name="phone_numbers_title">Phone numbers</string>
     <string name="phone_number_add">Add phone number</string>
