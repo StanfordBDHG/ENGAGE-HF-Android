@@ -1,6 +1,7 @@
 package edu.stanford.bdh.engagehf.health.bloodpressure.bottomsheet
 
 import androidx.health.connect.client.records.BloodPressureRecord
+import androidx.health.connect.client.records.metadata.Metadata
 import androidx.health.connect.client.units.Pressure
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -106,7 +107,8 @@ internal class AddBloodPressureBottomSheetViewModel @Inject constructor(
                 time = timePickerStateMapper.mapInstant(timePickerState),
                 zoneOffset = null,
                 bodyPosition = bodyPosition.value,
-                measurementLocation = measurementLocation.value
+                measurementLocation = measurementLocation.value,
+                metadata = Metadata.manualEntry(),
             )
             viewModelScope.launch {
                 healthRepository.saveRecord(bloodPressureRecord).onFailure {

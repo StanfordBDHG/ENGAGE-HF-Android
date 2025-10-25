@@ -1,6 +1,7 @@
 package edu.stanford.bdh.engagehf.health.heartrate.bottomsheet
 
 import androidx.health.connect.client.records.HeartRateRecord
+import androidx.health.connect.client.records.metadata.Metadata
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -81,7 +82,8 @@ internal class AddHeartRateBottomSheetViewModel @Inject constructor(
                         dateTime,
                         heartRate.toLong()
                     )
-                )
+                ),
+                metadata = Metadata.manualEntry(),
             ).also { heartRate ->
                 viewModelScope.launch {
                     healthRepository.saveRecord(heartRate).onFailure {

@@ -1,6 +1,7 @@
 package edu.stanford.bdh.engagehf.health.weight.bottomsheet
 
 import androidx.health.connect.client.records.WeightRecord
+import androidx.health.connect.client.records.metadata.Metadata
 import androidx.health.connect.client.units.Mass
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -88,6 +89,7 @@ class AddWeightBottomSheetViewModel @Inject internal constructor(
                 },
                 time = timePickerStateMapper.mapInstant(timePickerState),
                 zoneOffset = null,
+                metadata = Metadata.manualEntry(),
             ).let {
                 viewModelScope.launch {
                     healthRepository.saveRecord(it).onFailure {

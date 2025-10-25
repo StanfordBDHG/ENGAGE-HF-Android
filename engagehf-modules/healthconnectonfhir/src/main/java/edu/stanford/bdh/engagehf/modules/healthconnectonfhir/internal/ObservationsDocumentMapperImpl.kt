@@ -42,8 +42,8 @@ internal class ObservationsDocumentMapperImpl @Inject constructor(
         } as T
     }
 
-    private fun mapToHeartRateRecord(observation: Observation, clientRecordId: String?): Record {
-        val metadata = androidx.health.connect.client.records.metadata.Metadata(
+    private fun mapToHeartRateRecord(observation: Observation, clientRecordId: String): Record {
+        val metadata = androidx.health.connect.client.records.metadata.Metadata.manualEntry(
             clientRecordId = clientRecordId
         )
         val time = observation.effectiveDateTimeType.value.toInstant()
@@ -67,7 +67,7 @@ internal class ObservationsDocumentMapperImpl @Inject constructor(
 
     private fun mapToBloodPressureRecord(
         observation: Observation,
-        clientRecordId: String?,
+        clientRecordId: String,
     ): BloodPressureRecord {
         val systolic =
             observation.component.first { it.code.codingFirstRep.code == SYSTOLIC }
@@ -76,7 +76,7 @@ internal class ObservationsDocumentMapperImpl @Inject constructor(
             observation.component.first { it.code.codingFirstRep.code == DIASTOLIC }
                 .valueQuantity.value.toDouble()
 
-        val metadata = androidx.health.connect.client.records.metadata.Metadata(
+        val metadata = androidx.health.connect.client.records.metadata.Metadata.manualEntry(
             clientRecordId = clientRecordId
         )
 
@@ -101,12 +101,12 @@ internal class ObservationsDocumentMapperImpl @Inject constructor(
         return zonedDateTime.offset
     }
 
-    private fun mapToWeightRecord(observation: Observation, clientRecordId: String?): WeightRecord {
+    private fun mapToWeightRecord(observation: Observation, clientRecordId: String): WeightRecord {
         val weight = observation.valueQuantity.value.toDouble()
         val unit =
             observation.valueQuantity.unit
 
-        val metadata = androidx.health.connect.client.records.metadata.Metadata(
+        val metadata = androidx.health.connect.client.records.metadata.Metadata.manualEntry(
             clientRecordId = clientRecordId
         )
 

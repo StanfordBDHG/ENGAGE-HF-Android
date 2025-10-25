@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.health.connect.client.records.WeightRecord
+import androidx.health.connect.client.records.metadata.Metadata
 import androidx.health.connect.client.units.Mass
 import edu.stanford.bdh.engagehf.R
 import edu.stanford.bdh.engagehf.bluetooth.screen.MeasurementDialogTestIdentifier
@@ -260,7 +261,8 @@ private class HealthPagePreviewProvider : PreviewParameterProvider<HealthUiState
                 WeightRecord(
                     time = ZonedDateTime.now().toInstant(),
                     zoneOffset = ZonedDateTime.now().offset,
-                    weight = @Suppress("MagicNumber") Mass.pounds(154.0)
+                    weight = @Suppress("MagicNumber") Mass.pounds(154.0),
+                    metadata = Metadata.manualEntry(),
                 )
             ),
             tableData = listOf(
