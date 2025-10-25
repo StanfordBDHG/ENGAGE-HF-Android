@@ -13,7 +13,6 @@ dependencies {
     implementation(project(":spezi:core-logging"))
 
     implementation(libs.androidx.security.crypto.ktx)
-    implementation(libs.core.ktx)
 
     androidTestImplementation(libs.hilt.test)
     androidTestImplementation(project(":spezi:testing-ui"))

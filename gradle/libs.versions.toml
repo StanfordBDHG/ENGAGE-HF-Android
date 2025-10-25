@@ -12,7 +12,6 @@ composeBom = "2025.10.01"
 composeNavigation = "2.9.5"
 coreI18n = "1.0.0"
 coreKtx = "1.13.1"
-coreKtxVersion = "1.5.0"
 coreTestingVersion = "2.2.0"
 coroutinesVersion = "1.8.0"
 credentialsPlayServicesAuth = "1.2.2"
@@ -25,7 +24,6 @@ firebaseFirestoreKtx = "25.0.0"
 firebaseFunctionsKtx = "21.0.0"
 firebaseMessagingKtx = "24.0.1"
 firebaseStorageKtx = "21.0.0"
-foundation = "1.6.8"
 fragmentCompose = "1.8.9"
 googleGmsGoogleServices = "4.4.2"
 googleid = "1.1.0"
@@ -40,7 +38,6 @@ kotlin = "2.1.21"
 kotlinxSerializationJson = "1.6.3"
 kspVersion = "2.1.21-2.0.1"
 lifecycleKtx = "2.8.2"
-lifecycleRuntimeKtx = "2.7.0"
 minSdk = "31"
 mockKVersion = "1.13.10"
 phoneNumberVersion = "8.13.21"
@@ -70,7 +67,6 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "coreTestingVersion" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "foundation" }
 androidx-fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "fragmentCompose" }
 androidx-health-connect-client = { module = "androidx.health.connect:connect-client", version.ref = "healthConnectClient" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -84,6 +80,7 @@ androidx-test-runner = { group = "androidx.test", name = "runner", version.ref =
 androidyoutubeplayer-core = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "youtubeplayer" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
@@ -92,7 +89,6 @@ compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
 coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutinesVersion" }
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutinesVersion" }
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesVersion" }
@@ -149,7 +145,7 @@ spezi-serialization = { id = "spezi.serialization", version = "unspecified" }
 
 # Please keep [bundles] block sorted. Select all items and in Android Studio `Edit > Sort Lines`
 [bundles]
-compose = ["compose-ui", "compose-material3", "androidx-compose-material-icons", "compose-ui-tooling-preview", "compose-ui-tooling", "androidx-core-ktx", "androidx-appcompat", "androidx-activity-compose"]
+compose = ["compose-foundation", "compose-ui", "compose-material3", "androidx-compose-material-icons", "compose-ui-tooling-preview", "compose-ui-tooling", "androidx-core-ktx", "androidx-appcompat", "androidx-activity-compose"]
 compose-androidTest = ["junit", "androidx-espresso-core", "compose-ui-test", "mockk-agent-core", "mockk-android", "google-truth"]
 ktx-coroutines = ["coroutines-core", "coroutines-android"]
 unit-testing = ["junit", "mockk-core", "google-truth", "coroutines-test", "androidx-core-testing", "androidx-test-rules"]
