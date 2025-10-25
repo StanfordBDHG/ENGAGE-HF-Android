@@ -2,7 +2,7 @@
 [versions]
 accompanistPager = "0.35.1-alpha"
 activityCompose = "1.9.0"
-agp = "8.10.1"
+agp = "8.13.0"
 androidTools = "31.5.0"
 androidyoutubeplayer-core = "12.1.0"
 appcompat = "1.7.0"
@@ -16,7 +16,6 @@ coreKtxVersion = "1.5.0"
 coreTestingVersion = "2.2.0"
 coroutinesVersion = "1.8.0"
 credentialsPlayServicesAuth = "1.2.2"
-datastorePreferences = "1.1.1"
 detekt = "1.23.6" # please adjust github action version as well in case of version change
 dokka = "1.9.20"
 espressoCore = "3.5.1"
@@ -69,7 +68,6 @@ androidx-core-i18n = { group = "androidx.core", name = "core-i18n", version.ref 
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "coreTestingVersion" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
-androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "foundation" }
 androidx-fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "fragmentCompose" }

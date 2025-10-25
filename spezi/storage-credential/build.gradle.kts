@@ -12,7 +12,6 @@ dependencies {
     api(project(":spezi:core"))
     implementation(project(":spezi:core-logging"))
 
-    implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.security.crypto.ktx)
     implementation(libs.core.ktx)
 
