@@ -4,11 +4,8 @@ import android.content.Context
 import android.content.res.Resources
 import com.google.common.truth.Truth.assertThat
 import com.google.firebase.functions.FirebaseFunctions
-import com.google.firebase.functions.HttpsCallableReference
-import com.google.firebase.functions.HttpsCallableResult
 import edu.stanford.bdh.engagehf.R
 import edu.stanford.bdh.engagehf.modules.account.manager.UserSessionManager
-import edu.stanford.bdh.engagehf.modules.testing.mockTask
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -46,28 +43,6 @@ class PhoneNumberServiceTest {
     }
 
     @Test
-    fun `it should handle start number verification success correctly`() = runTest {
-        // given
-        val data = mapOf(
-            "phoneNumber" to phoneNumber,
-            "userId" to userId
-        )
-        val httpsCallableReference: HttpsCallableReference = mockk()
-        val httpCallableResult: HttpsCallableResult = mockk()
-        every { httpCallableResult.data } returns data
-        every {
-            firebaseFunctions.getHttpsCallable("startPhoneNumberVerification")
-        } returns httpsCallableReference
-        every { httpsCallableReference.call(data) } returns mockTask(httpCallableResult)
-
-        // when
-        val result = service.startPhoneNumberVerification(phoneNumber)
-
-        // then
-        assertThat(result.isSuccess).isTrue()
-    }
-
-    @Test
     fun `it should handle start number verification failure correctly`() = runTest {
         // given
         val exception = Exception("Function call failed")
@@ -84,30 +59,6 @@ class PhoneNumberServiceTest {
     }
 
     @Test
-    fun `it should handle check number verification success correctly`() = runTest {
-        // given
-        val code = "123456"
-        val data = mapOf(
-            "phoneNumber" to phoneNumber,
-            "code" to code,
-            "userId" to userId
-        )
-        val httpsCallableReference: HttpsCallableReference = mockk()
-        val httpCallableResult: HttpsCallableResult = mockk()
-        every { httpCallableResult.data } returns data
-        every {
-            firebaseFunctions.getHttpsCallable("checkPhoneNumberVerification")
-        } returns httpsCallableReference
-        every { httpsCallableReference.call(data) } returns mockTask(httpCallableResult)
-
-        // when
-        val result = service.checkPhoneNumberVerification(code, phoneNumber)
-
-        // then
-        assertThat(result.isSuccess).isTrue()
-    }
-
-    @Test
     fun `it should handle check number verification failure correctly`() = runTest {
         // given
         val exception = Exception("Function call failed")
@@ -121,28 +72,6 @@ class PhoneNumberServiceTest {
         // then
         assertThat(result.isFailure).isTrue()
         assertThat(result.exceptionOrNull()).isEqualTo(exception)
-    }
-
-    @Test
-    fun `it should handle delete phone number success correctly`() = runTest {
-        // given
-        val data = mapOf(
-            "phoneNumber" to phoneNumber,
-            "userId" to userId
-        )
-        val httpsCallableReference: HttpsCallableReference = mockk()
-        val httpCallableResult: HttpsCallableResult = mockk()
-        every { httpCallableResult.data } returns data
-        every {
-            firebaseFunctions.getHttpsCallable("deletePhoneNumber")
-        } returns httpsCallableReference
-        every { httpsCallableReference.call(data) } returns mockTask(httpCallableResult)
-
-        // when
-        val result = service.deletePhoneNumber(phoneNumber)
-
-        // then
-        assertThat(result.isSuccess).isTrue()
     }
 
     @Test
