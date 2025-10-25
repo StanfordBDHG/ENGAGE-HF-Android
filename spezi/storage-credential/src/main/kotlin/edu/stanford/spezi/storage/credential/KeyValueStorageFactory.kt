@@ -30,7 +30,7 @@ internal class KeyValueStorageFactoryImpl @Inject constructor(
     }
 
     override fun create(fileName: String, type: KeyValueStorageType): KeyValueStorage {
-        val preferences = createSharedPreferences(fileName = fileName, type = type)
+        val preferences by createSharedPreferences(fileName = fileName, type = type)
         return storageFactory.create(preferences)
     }
 
