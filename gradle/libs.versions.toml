@@ -40,7 +40,7 @@ kspVersion = "2.1.21-2.0.1" # should align version with kotlin, see kotlin = "2.
 lifecycleKtx = "2.9.4"
 minSdk = "31"
 mockKVersion = "1.14.6"
-phoneNumberVersion = "8.13.21"
+phoneNumberVersion = "9.0.17"
 playServicesAuth = "21.2.0"
 rulesVersion = "1.7.0"
 runnerVersion = "1.7.0"
