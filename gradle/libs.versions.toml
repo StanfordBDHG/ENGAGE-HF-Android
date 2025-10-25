@@ -1,13 +1,13 @@
 # Please keep [versions] block sorted. Select all items and in Android Studio `Edit > Sort Lines`
 [versions]
 accompanistPager = "0.35.1-alpha"
-activityCompose = "1.9.0"
+activityCompose = "1.11.0"
 agp = "8.13.0"
-androidTools = "31.5.0"
+androidTools = "31.13.0"
 androidyoutubeplayer-core = "12.1.0"
 appcompat = "1.7.0"
 coilCompose = "2.6.0"
-compileSdk = "35"
+compileSdk = "36"
 composeBom = "2024.06.00"
 composeNavigation = "2.8.0-beta03"
 coreI18n = "1.0.0-alpha01"
