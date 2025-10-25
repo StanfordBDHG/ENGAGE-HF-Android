@@ -4,7 +4,7 @@ accompanistPager = "0.36.0"
 activityCompose = "1.11.0"
 agp = "8.13.0"
 androidTools = "31.13.0"
-androidyoutubeplayer-core = "12.1.0"
+youtubeplayer = "13.0.0"
 appcompat = "1.7.1"
 coilCompose = "2.6.0"
 compileSdk = "36"
@@ -81,7 +81,7 @@ androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", v
 androidx-test-core = { group = "androidx.test", name = "core", version.ref = "testCoreVersion" }
 androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "rulesVersion" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "runnerVersion" }
-androidyoutubeplayer-core = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "androidyoutubeplayer-core" }
+androidyoutubeplayer-core = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "youtubeplayer" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3" }
