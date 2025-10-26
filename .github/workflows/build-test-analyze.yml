@@ -155,7 +155,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
       - name: Run Dokka with Gradle
-        run: ./gradlew dokkaHtmlMultiModule
+        run: ./gradlew generateDocs
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
         uses: JamesIves/github-pages-deploy-action@v4
