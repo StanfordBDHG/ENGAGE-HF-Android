@@ -9,10 +9,8 @@ import dagger.assisted.AssistedInject
 
 @Suppress("TooManyFunctions")
 class KeyValueStorageImpl @AssistedInject internal constructor(
-    @Assisted preferences: Lazy<SharedPreferences>,
+    @Assisted private val sharedPreferences: SharedPreferences,
 ) : KeyValueStorage {
-
-    private val sharedPreferences by preferences
 
     override fun allKeys(): Set<String> = sharedPreferences.all.keys
 
@@ -77,7 +75,7 @@ class KeyValueStorageImpl @AssistedInject internal constructor(
     @AssistedFactory
     internal interface Factory {
         fun create(
-            preferences: Lazy<SharedPreferences>,
+            preferences: SharedPreferences,
         ): KeyValueStorageImpl
     }
 }

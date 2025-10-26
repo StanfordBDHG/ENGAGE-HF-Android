@@ -1,6 +1,5 @@
 package edu.stanford.bdh.engagehf.messages
 
-import androidx.lifecycle.AtomicReference
 import edu.stanford.bdh.engagehf.R
 import edu.stanford.bdh.engagehf.bluetooth.component.AppScreenEvents
 import edu.stanford.bdh.engagehf.education.EngageEducationRepository
@@ -10,6 +9,7 @@ import edu.stanford.bdh.engagehf.modules.utils.MessageNotifier
 import edu.stanford.bdh.engagehf.navigation.AppNavigationEvent
 import edu.stanford.bdh.engagehf.navigation.screens.BottomBarItem
 import edu.stanford.spezi.core.logging.speziLogger
+import java.util.concurrent.atomic.AtomicReference
 import javax.inject.Inject
 
 class MessagesHandler @Inject constructor(

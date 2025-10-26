@@ -27,4 +27,5 @@ dependencies {
     implementation(project(":spezi:core-logging"))
     implementation(project(":spezi:ui"))
     implementation(project(":spezi:storage-credential"))
+    androidTestImplementation(project(":spezi:testing-ui"))
 }

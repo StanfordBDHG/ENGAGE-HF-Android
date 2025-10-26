@@ -42,7 +42,7 @@ data class NewestHealthData(
 )
 
 data class TableEntryData(
-    val id: String?,
+    val id: String,
     val value: Double?,
     val secondValue: Float?,
     val formattedValues: String,

@@ -7,6 +7,7 @@ import androidx.health.connect.client.records.WeightRecord
 import androidx.health.connect.client.units.Mass
 import androidx.health.connect.client.units.Pressure
 import edu.stanford.bdh.engagehf.bluetooth.service.Measurement
+import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.Metadata
 import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.RecordToObservationMapper
 import edu.stanford.bdh.engagehf.modules.utils.TimeProvider
 import org.hl7.fhir.r4.model.Observation
@@ -43,7 +44,8 @@ internal class MeasurementToObservationMapper @Inject constructor(
             systolic = Pressure.millimetersOfMercury(measurement.systolic.toDouble()),
             diastolic = Pressure.millimetersOfMercury(measurement.diastolic.toDouble()),
             time = createInstant(measurement),
-            zoneOffset = currentZoneOffset
+            zoneOffset = currentZoneOffset,
+            metadata = Metadata()
         )
     }
 
@@ -59,7 +61,8 @@ internal class MeasurementToObservationMapper @Inject constructor(
                     time = time,
                     beatsPerMinute = measurement.pulseRate.toLong()
                 )
-            )
+            ),
+            metadata = Metadata()
         )
     }
 
@@ -67,7 +70,8 @@ internal class MeasurementToObservationMapper @Inject constructor(
         return WeightRecord(
             weight = Mass.kilograms(measurement.weight),
             time = measurement.zonedDateTime?.toInstant() ?: timeProvider.nowInstant(),
-            zoneOffset = currentZoneOffset
+            zoneOffset = currentZoneOffset,
+            metadata = Metadata(),
         )
     }
 

@@ -33,6 +33,7 @@ import edu.stanford.bdh.engagehf.bluetooth.screen.MeasurementDialogTestIdentifie
 import edu.stanford.bdh.engagehf.health.components.HealthChart
 import edu.stanford.bdh.engagehf.health.components.SwipeBox
 import edu.stanford.bdh.engagehf.health.components.TimeRangeDropdown
+import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.Metadata
 import edu.stanford.spezi.ui.AsyncTextButton
 import edu.stanford.spezi.ui.CenteredBoxContent
 import edu.stanford.spezi.ui.StringResource
@@ -101,7 +102,7 @@ fun HealthPage(
                 itemsIndexed(data) { index, entry ->
                     SwipeBox(
                         onDelete = {
-                            entry.id?.let { onAction(HealthAction.RequestDeleteRecord(it)) }
+                            onAction(HealthAction.RequestDeleteRecord(entry.id))
                         },
                         content = {
                             HealthTableItem(entry)
@@ -260,7 +261,8 @@ private class HealthPagePreviewProvider : PreviewParameterProvider<HealthUiState
                 WeightRecord(
                     time = ZonedDateTime.now().toInstant(),
                     zoneOffset = ZonedDateTime.now().offset,
-                    weight = @Suppress("MagicNumber") Mass.pounds(154.0)
+                    weight = @Suppress("MagicNumber") Mass.pounds(154.0),
+                    metadata = Metadata(),
                 )
             ),
             tableData = listOf(

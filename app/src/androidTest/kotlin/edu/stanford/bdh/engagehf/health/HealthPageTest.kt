@@ -4,6 +4,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.records.WeightRecord
 import androidx.health.connect.client.units.Mass
+import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.Metadata
 import edu.stanford.bdh.engagehf.simulator.HealthPageSimulator
 import edu.stanford.spezi.ui.StringResource
 import org.junit.Rule
@@ -143,7 +144,7 @@ class HealthPageTest {
     }
 
     private fun getSuccessState(
-        entryId: String? = null,
+        entryId: String = "id",
         tableData: List<TableEntryData> = listOf(
             TableEntryData(
                 value = 70.0,
@@ -160,7 +161,8 @@ class HealthPageTest {
             WeightRecord(
                 time = ZonedDateTime.now().toInstant(),
                 zoneOffset = ZonedDateTime.now().offset,
-                weight = @Suppress("MagicNumber") Mass.pounds(154.0)
+                weight = @Suppress("MagicNumber") Mass.pounds(154.0),
+                metadata = Metadata(),
             )
         ),
     ): HealthUiState {

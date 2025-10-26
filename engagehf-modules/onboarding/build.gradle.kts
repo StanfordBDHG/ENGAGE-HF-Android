@@ -20,7 +20,6 @@ dependencies {
     implementation(project(":spezi:ui"))
     implementation(project(":spezi:ui-markdown"))
 
-    implementation(libs.androidx.foundation)
     implementation(libs.accompanist.pager)
     implementation(libs.hilt.navigation.compose)
 

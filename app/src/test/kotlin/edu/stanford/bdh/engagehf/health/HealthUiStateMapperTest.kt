@@ -5,7 +5,9 @@ import androidx.health.connect.client.records.WeightRecord
 import androidx.health.connect.client.units.Mass
 import com.google.common.truth.Truth.assertThat
 import edu.stanford.bdh.engagehf.R
+import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.Metadata
 import edu.stanford.bdh.engagehf.modules.utils.LocaleProvider
+import edu.stanford.bdh.engagehf.modules.utils.TimeProvider
 import edu.stanford.bdh.engagehf.modules.utils.extensions.roundToDecimalPlaces
 import edu.stanford.spezi.ui.StringResource
 import io.mockk.every
@@ -19,12 +21,14 @@ import java.util.Locale
 class HealthUiStateMapperTest {
 
     private val localeProvider: LocaleProvider = mockk()
-    private val healthUiStateMapper = HealthUiStateMapper(localeProvider = localeProvider)
-    private val zonedDateTime = ZonedDateTime.now()
+    private val timeProvider: TimeProvider = mockk()
+    private val healthUiStateMapper = HealthUiStateMapper(localeProvider = localeProvider, timeProvider = timeProvider)
+    private val zonedDateTime = ZonedDateTime.parse("2025-01-01T16:30:00+02:00[Europe/Berlin]")
 
     @Before
     fun setup() {
         every { localeProvider.getDefaultLocale() } returns Locale.US
+        every { timeProvider.nowZonedDateTime() } returns zonedDateTime
     }
 
     @Test
@@ -255,7 +259,8 @@ class HealthUiStateMapperTest {
                 ZoneId.systemDefault()
             ).toInstant(),
             zoneOffset = zonedDateTime.offset,
-            weight = Mass.kilograms(weightInKg)
+            weight = Mass.kilograms(weightInKg),
+            metadata = Metadata()
         )
     }
 

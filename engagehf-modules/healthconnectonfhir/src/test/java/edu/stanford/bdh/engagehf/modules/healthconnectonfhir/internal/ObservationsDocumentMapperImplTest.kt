@@ -45,7 +45,7 @@ class ObservationsDocumentMapperImplTest {
 
         // Then
         assertThat(result).isNotNull()
-        assertThat(result.metadata.clientRecordId).isEqualTo("id")
+        assertThat(result.metadata.id).isEqualTo("id")
         assertThat(result.time).isEqualTo(givenDate.toInstant())
         assertThat(result.weight.inKilograms).isEqualTo(givenWeight)
     }

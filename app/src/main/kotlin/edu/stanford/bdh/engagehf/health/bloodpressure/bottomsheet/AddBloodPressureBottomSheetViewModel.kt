@@ -9,6 +9,7 @@ import edu.stanford.bdh.engagehf.R
 import edu.stanford.bdh.engagehf.bluetooth.component.AppScreenEvents
 import edu.stanford.bdh.engagehf.health.HealthRepository
 import edu.stanford.bdh.engagehf.health.time.TimePickerStateMapper
+import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.Metadata
 import edu.stanford.bdh.engagehf.modules.utils.MessageNotifier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -106,7 +107,8 @@ internal class AddBloodPressureBottomSheetViewModel @Inject constructor(
                 time = timePickerStateMapper.mapInstant(timePickerState),
                 zoneOffset = null,
                 bodyPosition = bodyPosition.value,
-                measurementLocation = measurementLocation.value
+                measurementLocation = measurementLocation.value,
+                metadata = Metadata()
             )
             viewModelScope.launch {
                 healthRepository.saveRecord(bloodPressureRecord).onFailure {

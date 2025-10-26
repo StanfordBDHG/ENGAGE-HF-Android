@@ -1,11 +1,17 @@
 package edu.stanford.bdh.engagehf.modules.notification.fcm
 
-import android.content.Context
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
+import android.content.ComponentName
+import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.messaging.FirebaseMessaging
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.components.SingletonComponent
+import edu.stanford.bdh.engagehf.modules.notification.notifier.Notifications
 import edu.stanford.bdh.engagehf.modules.testing.SpeziTestScope
 import edu.stanford.bdh.engagehf.modules.testing.mockTask
 import edu.stanford.bdh.engagehf.modules.utils.BuildInfo
@@ -19,17 +25,23 @@ import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import java.util.Locale
 import java.util.TimeZone
 
+@HiltAndroidTest
 class DeviceRegistrationServiceTest {
 
-    private val context: Context = mockk(relaxed = true)
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
+
+    private val context by lazy { InstrumentationRegistry.getInstrumentation().targetContext }
+    private val packageInfo by lazy {
+        context.packageManager.getPackageInfo(context.packageName, 0)
+    }
     private val functions: FirebaseFunctions = mockk(relaxed = true)
     private val firebaseMessaging: FirebaseMessaging = mockk(relaxed = true)
-    private val packageManager: PackageManager = mockk(relaxed = true)
-    private val packageInfo: PackageInfo = PackageInfo()
     private val buildInfo: BuildInfo = mockk(relaxed = true)
     private val storage = InMemoryKeyValueStorage()
     private val storageKey = "fcm-notification-token-body"
@@ -40,11 +52,7 @@ class DeviceRegistrationServiceTest {
 
     @Before
     fun setup() {
-        every { context.packageManager } returns packageManager
-        every { context.packageName } returns "edu.stanford.spezi"
-        every { packageManager.getPackageInfo("edu.stanford.spezi", 0) } returns packageInfo
-        packageInfo.versionName = "1.2.3"
-        packageInfo.versionCode = 1
+        hiltRule.inject()
         every { buildInfo.getOsVersion() } returns "tiramisu"
 
         service = DeviceRegistrationServiceImpl(
@@ -165,9 +173,18 @@ class DeviceRegistrationServiceTest {
     ) = DeviceRegistrationServiceImpl.NotificationTokenBody(
         notificationToken = token,
         osVersion = buildInfo.getOsVersion(),
-        appVersion = packageInfo.versionName,
-        appBuild = packageInfo.versionCode.toString(),
+        appVersion = packageInfo.versionName ?: "unknown",
+        appBuild = packageInfo.longVersionCode.toString(),
         language = Locale.getDefault().toLanguageTag(),
         timeZone = TimeZone.getDefault().id
     )
+
+    @Module
+    @InstallIn(SingletonComponent::class)
+    class TestModule {
+
+        @Notifications.TargetActivity
+        @Provides
+        fun provideTargetActivityComponentName(): ComponentName = ComponentName("package.name", "class.name")
+    }
 }

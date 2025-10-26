@@ -8,6 +8,7 @@ import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.records.WeightRecord
 import edu.stanford.bdh.engagehf.R
 import edu.stanford.bdh.engagehf.modules.utils.LocaleProvider
+import edu.stanford.bdh.engagehf.modules.utils.TimeProvider
 import edu.stanford.bdh.engagehf.modules.utils.extensions.roundToDecimalPlaces
 import edu.stanford.spezi.ui.StringResource
 import java.time.DayOfWeek
@@ -20,6 +21,7 @@ import javax.inject.Inject
 
 class HealthUiStateMapper @Inject constructor(
     private val localeProvider: LocaleProvider,
+    private val timeProvider: TimeProvider,
 ) {
 
     private val monthDayTimeFormatter = DateTimeFormatter.ofPattern(MONTH_DAY_TIME_PATTERN)
@@ -33,7 +35,7 @@ class HealthUiStateMapper @Inject constructor(
         val engageRecords = records.map { EngageRecord.from(it) }
             .filter {
                 it.zonedDateTime.isAfter(
-                    ZonedDateTime.now().minusMonths(getMaxMonths(selectedTimeRange))
+                    timeProvider.nowZonedDateTime().minusMonths(getMaxMonths(selectedTimeRange))
                 )
             }
         return if (engageRecords.isEmpty()) {
@@ -256,7 +258,7 @@ class HealthUiStateMapper @Inject constructor(
             }
 
             val tableEntryData = TableEntryData(
-                id = currentRecord.clientRecordId,
+                id = currentRecord.record.metadata.id,
                 value = currentRecordValue.value,
                 secondValue = if (currentRecord is EngageRecord.BloodPressure) {
                     getValue(currentRecord, true).value.toFloat()
@@ -376,8 +378,6 @@ class HealthUiStateMapper @Inject constructor(
                 is BloodPressure -> record.time.atZone(record.zoneOffset)
                 is HeartRate -> record.startTime.atZone(record.startZoneOffset)
             }
-
-        val clientRecordId get() = record.metadata.clientRecordId
 
         companion object {
             fun from(record: Record) = when (record) {

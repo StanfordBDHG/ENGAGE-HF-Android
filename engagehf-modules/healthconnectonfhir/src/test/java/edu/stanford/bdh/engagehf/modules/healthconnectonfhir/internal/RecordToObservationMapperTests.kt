@@ -13,7 +13,6 @@ import androidx.health.connect.client.records.OxygenSaturationRecord
 import androidx.health.connect.client.records.RespiratoryRateRecord
 import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.records.WeightRecord
-import androidx.health.connect.client.records.metadata.Metadata
 import androidx.health.connect.client.units.BloodGlucose
 import androidx.health.connect.client.units.Energy
 import androidx.health.connect.client.units.Length
@@ -22,6 +21,7 @@ import androidx.health.connect.client.units.Percentage
 import androidx.health.connect.client.units.Pressure
 import androidx.health.connect.client.units.Temperature
 import com.google.common.truth.Truth.assertThat
+import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.Metadata
 import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.R
 import io.mockk.every
 import io.mockk.mockk
@@ -248,7 +248,8 @@ class RecordToObservationMapperTests {
             startTime = Instant.parse("2023-05-18T10:15:30.00Z"),
             endTime = Instant.parse("2023-05-18T10:17:30.00Z"),
             startZoneOffset = ZoneOffset.UTC,
-            endZoneOffset = ZoneOffset.UTC
+            endZoneOffset = ZoneOffset.UTC,
+            metadata = Metadata()
         )
 
         val observations = mapper.map(heartRateRecord)
