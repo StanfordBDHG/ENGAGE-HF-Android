@@ -258,7 +258,7 @@ class HealthUiStateMapper @Inject constructor(
             }
 
             val tableEntryData = TableEntryData(
-                id = currentRecord.clientRecordId,
+                id = currentRecord.record.metadata.id,
                 value = currentRecordValue.value,
                 secondValue = if (currentRecord is EngageRecord.BloodPressure) {
                     getValue(currentRecord, true).value.toFloat()
@@ -378,8 +378,6 @@ class HealthUiStateMapper @Inject constructor(
                 is BloodPressure -> record.time.atZone(record.zoneOffset)
                 is HeartRate -> record.startTime.atZone(record.startZoneOffset)
             }
-
-        val clientRecordId get() = record.metadata.clientRecordId
 
         companion object {
             fun from(record: Record) = when (record) {

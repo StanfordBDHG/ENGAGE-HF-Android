@@ -118,7 +118,7 @@ class SymptomsUiStateMapper @Inject constructor(
                 } ?: NOT_AVAILABLE
 
                 TableEntryData(
-                    id = null,
+                    id = index.toString(),
                     value = currentValue,
                     secondValue = null,
                     formattedValues = formattedValue,

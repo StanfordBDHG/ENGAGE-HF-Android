@@ -1,7 +1,6 @@
 package edu.stanford.bdh.engagehf.health.bloodpressure.bottomsheet
 
 import androidx.health.connect.client.records.BloodPressureRecord
-import androidx.health.connect.client.records.metadata.Metadata
 import androidx.health.connect.client.units.Pressure
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +9,7 @@ import edu.stanford.bdh.engagehf.R
 import edu.stanford.bdh.engagehf.bluetooth.component.AppScreenEvents
 import edu.stanford.bdh.engagehf.health.HealthRepository
 import edu.stanford.bdh.engagehf.health.time.TimePickerStateMapper
+import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.Metadata
 import edu.stanford.bdh.engagehf.modules.utils.MessageNotifier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -108,7 +108,7 @@ internal class AddBloodPressureBottomSheetViewModel @Inject constructor(
                 zoneOffset = null,
                 bodyPosition = bodyPosition.value,
                 measurementLocation = measurementLocation.value,
-                metadata = Metadata.manualEntry(),
+                metadata = Metadata()
             )
             viewModelScope.launch {
                 healthRepository.saveRecord(bloodPressureRecord).onFailure {

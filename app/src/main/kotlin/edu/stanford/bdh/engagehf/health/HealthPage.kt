@@ -27,7 +27,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.health.connect.client.records.WeightRecord
-import androidx.health.connect.client.records.metadata.Metadata
 import androidx.health.connect.client.units.Mass
 import edu.stanford.bdh.engagehf.R
 import edu.stanford.bdh.engagehf.bluetooth.screen.MeasurementDialogTestIdentifier
@@ -102,7 +101,7 @@ fun HealthPage(
                 itemsIndexed(data) { index, entry ->
                     SwipeBox(
                         onDelete = {
-                            entry.id?.let { onAction(HealthAction.RequestDeleteRecord(it)) }
+                            onAction(HealthAction.RequestDeleteRecord(entry.id))
                         },
                         content = {
                             HealthTableItem(entry)
@@ -262,7 +261,7 @@ private class HealthPagePreviewProvider : PreviewParameterProvider<HealthUiState
                     time = ZonedDateTime.now().toInstant(),
                     zoneOffset = ZonedDateTime.now().offset,
                     weight = @Suppress("MagicNumber") Mass.pounds(154.0),
-                    metadata = Metadata.manualEntry(),
+                    metadata = edu.stanford.bdh.engagehf.modules.healthconnectonfhir.Metadata(),
                 )
             ),
             tableData = listOf(

@@ -11,6 +11,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.Loinc
+import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.Metadata
 import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.ObservationsDocumentMapper
 import org.hl7.fhir.r4.model.Observation
 import java.time.ZoneId
@@ -32,20 +33,17 @@ internal class ObservationsDocumentMapperImpl @Inject constructor(
     override fun <T : Record> map(observationDocument: DocumentSnapshot): T {
         val json = gson.toJson(observationDocument.data)
         val observation = jsonParser.parseResource(Observation::class.java, json)
-        val clientRecordId = observationDocument.id
+        val documentId = observationDocument.id
         @Suppress("UNCHECKED_CAST")
         return when (observation.code.codingFirstRep.code) {
-            Loinc.BLOOD_PRESSURE.code -> mapToBloodPressureRecord(observation, clientRecordId)
-            Loinc.WEIGHT.code -> mapToWeightRecord(observation, clientRecordId)
-            Loinc.HEART_RATE.code -> mapToHeartRateRecord(observation, clientRecordId)
+            Loinc.BLOOD_PRESSURE.code -> mapToBloodPressureRecord(observation, documentId)
+            Loinc.WEIGHT.code -> mapToWeightRecord(observation, documentId)
+            Loinc.HEART_RATE.code -> mapToHeartRateRecord(observation, documentId)
             else -> error("Unsupported observation type: ${observation.code.codingFirstRep.code}")
         } as T
     }
 
-    private fun mapToHeartRateRecord(observation: Observation, clientRecordId: String): Record {
-        val metadata = androidx.health.connect.client.records.metadata.Metadata.manualEntry(
-            clientRecordId = clientRecordId
-        )
+    private fun mapToHeartRateRecord(observation: Observation, id: String): Record {
         val time = observation.effectiveDateTimeType.value.toInstant()
         val zoneOffset = getZoneOffset(observation)
         val heartRate = observation.valueQuantity.value.toDouble()
@@ -61,13 +59,13 @@ internal class ObservationsDocumentMapperImpl @Inject constructor(
                     beatsPerMinute = heartRate.toLong()
                 )
             ),
-            metadata = metadata
+            metadata = Metadata(id = id)
         )
     }
 
     private fun mapToBloodPressureRecord(
         observation: Observation,
-        clientRecordId: String,
+        id: String,
     ): BloodPressureRecord {
         val systolic =
             observation.component.first { it.code.codingFirstRep.code == SYSTOLIC }
@@ -76,16 +74,12 @@ internal class ObservationsDocumentMapperImpl @Inject constructor(
             observation.component.first { it.code.codingFirstRep.code == DIASTOLIC }
                 .valueQuantity.value.toDouble()
 
-        val metadata = androidx.health.connect.client.records.metadata.Metadata.manualEntry(
-            clientRecordId = clientRecordId
-        )
-
         return BloodPressureRecord(
             time = observation.effectiveDateTimeType.value.toInstant(),
             zoneOffset = getZoneOffset(observation),
             systolic = Pressure.millimetersOfMercury(systolic),
             diastolic = Pressure.millimetersOfMercury(diastolic),
-            metadata = metadata
+            metadata = Metadata(id = id)
         )
     }
 
@@ -101,14 +95,12 @@ internal class ObservationsDocumentMapperImpl @Inject constructor(
         return zonedDateTime.offset
     }
 
-    private fun mapToWeightRecord(observation: Observation, clientRecordId: String): WeightRecord {
+    private fun mapToWeightRecord(observation: Observation, id: String): WeightRecord {
         val weight = observation.valueQuantity.value.toDouble()
         val unit =
             observation.valueQuantity.unit
 
-        val metadata = androidx.health.connect.client.records.metadata.Metadata.manualEntry(
-            clientRecordId = clientRecordId
-        )
+        val metadata = Metadata(id = id)
 
         return WeightRecord(
             time = observation.effectiveDateTimeType.value.toInstant(),

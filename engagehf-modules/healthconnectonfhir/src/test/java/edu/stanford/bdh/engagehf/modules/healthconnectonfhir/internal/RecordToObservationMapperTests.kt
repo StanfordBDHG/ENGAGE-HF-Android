@@ -13,7 +13,6 @@ import androidx.health.connect.client.records.OxygenSaturationRecord
 import androidx.health.connect.client.records.RespiratoryRateRecord
 import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.records.WeightRecord
-import androidx.health.connect.client.records.metadata.Metadata
 import androidx.health.connect.client.units.BloodGlucose
 import androidx.health.connect.client.units.Energy
 import androidx.health.connect.client.units.Length
@@ -22,6 +21,7 @@ import androidx.health.connect.client.units.Percentage
 import androidx.health.connect.client.units.Pressure
 import androidx.health.connect.client.units.Temperature
 import com.google.common.truth.Truth.assertThat
+import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.Metadata
 import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.R
 import io.mockk.every
 import io.mockk.mockk
@@ -74,7 +74,7 @@ class RecordToObservationMapperTests {
     @Test
     fun `activeCaloriesBurnedRecord toObservation isCorrect`() {
         val activeCaloriesBurnedRecord = ActiveCaloriesBurnedRecord(
-            metadata = Metadata.unknownRecordingMethodWithId(id = "123456"),
+            metadata = Metadata(id = "123456"),
             energy = Energy.calories(250.0),
             startTime = Instant.parse("2023-05-18T10:15:30.00Z"),
             endTime = Instant.parse("2023-05-18T11:15:30.00Z"),
@@ -108,7 +108,7 @@ class RecordToObservationMapperTests {
     @Test
     fun `bloodPressureRecord toObservation isCorrect`() {
         val bloodPressureRecord = BloodPressureRecord(
-            metadata = Metadata.unknownRecordingMethodWithId(id = "123456"),
+            metadata = Metadata(id = "123456"),
             time = Instant.parse("2023-05-18T10:15:30.00Z"),
             systolic = Pressure.millimetersOfMercury(120.0),
             diastolic = Pressure.millimetersOfMercury(80.0),
@@ -144,7 +144,7 @@ class RecordToObservationMapperTests {
     @Test
     fun `bloodGlucoseRecord toObservation isCorrect`() {
         val bloodGlucoseRecord = BloodGlucoseRecord(
-            metadata = Metadata.unknownRecordingMethodWithId(id = "123456"),
+            metadata = Metadata(id = "123456"),
             time = Instant.parse("2023-05-18T10:15:30.00Z"),
             level = BloodGlucose.milligramsPerDeciliter(90.0),
             zoneOffset = ZoneOffset.UTC
@@ -174,7 +174,7 @@ class RecordToObservationMapperTests {
     @Test
     fun `bodyFatRecord toObservation isCorrect`() {
         val bodyFatRecord = BodyFatRecord(
-            metadata = Metadata.unknownRecordingMethodWithId(id = "123456"),
+            metadata = Metadata(id = "123456"),
             time = Instant.parse("2023-05-18T10:15:30.00Z"),
             percentage = Percentage(10.0),
             zoneOffset = ZoneOffset.UTC
@@ -204,7 +204,7 @@ class RecordToObservationMapperTests {
     @Test
     fun `bodyTemperatureRecord toObservation isCorrect`() {
         val bodyTemperatureRecord = BodyTemperatureRecord(
-            metadata = Metadata.unknownRecordingMethodWithId(id = "123456"),
+            metadata = Metadata(id = "123456"),
             time = Instant.parse("2023-05-18T10:15:30.00Z"),
             temperature = Temperature.celsius(37.5),
             zoneOffset = ZoneOffset.UTC
@@ -249,7 +249,7 @@ class RecordToObservationMapperTests {
             endTime = Instant.parse("2023-05-18T10:17:30.00Z"),
             startZoneOffset = ZoneOffset.UTC,
             endZoneOffset = ZoneOffset.UTC,
-            metadata = Metadata.manualEntry(),
+            metadata = Metadata()
         )
 
         val observations = mapper.map(heartRateRecord)
@@ -283,7 +283,7 @@ class RecordToObservationMapperTests {
     @Test
     fun `heightRecord toObservation isCorrect`() {
         val heightRecord = HeightRecord(
-            metadata = Metadata.unknownRecordingMethodWithId(id = "123456"),
+            metadata = Metadata(id = "123456"),
             time = Instant.parse("2023-05-18T10:15:30.00Z"),
             height = Length.meters(1.5),
             zoneOffset = ZoneOffset.UTC
@@ -314,7 +314,7 @@ class RecordToObservationMapperTests {
     @Test
     fun `oxygenSaturationRecord toObservation isCorrect`() {
         val oxygenSaturationRecord = OxygenSaturationRecord(
-            metadata = Metadata.unknownRecordingMethodWithId(id = "123456"),
+            metadata = Metadata(id = "123456"),
             time = Instant.parse("2023-05-18T10:15:30.00Z"),
             percentage = Percentage(99.0),
             zoneOffset = ZoneOffset.UTC
@@ -345,7 +345,7 @@ class RecordToObservationMapperTests {
     @Test
     fun `respiratoryRate toObservation isCorrect`() {
         val respiratoryRateRecord = RespiratoryRateRecord(
-            metadata = Metadata.unknownRecordingMethodWithId(id = "123456"),
+            metadata = Metadata(id = "123456"),
             time = Instant.parse("2023-05-18T10:15:30.00Z"),
             rate = 18.0,
             zoneOffset = ZoneOffset.UTC
@@ -376,7 +376,7 @@ class RecordToObservationMapperTests {
     @Test
     fun `stepsRecord toObservation isCorrect`() {
         val stepsRecord = StepsRecord(
-            metadata = Metadata.unknownRecordingMethodWithId(id = "123456"),
+            metadata = Metadata(id = "123456"),
             count = 1000,
             startTime = Instant.parse("2023-05-18T10:15:30.00Z"),
             endTime = Instant.parse("2023-05-18T11:15:30.00Z"),
@@ -408,7 +408,7 @@ class RecordToObservationMapperTests {
     @Test
     fun `weightRecord toObservation isCorrect`() {
         val weightRecord = WeightRecord(
-            metadata = Metadata.unknownRecordingMethodWithId(id = "123456"),
+            metadata = Metadata(id = "123456"),
             weight = Mass.kilograms(75.0),
             time = Instant.parse("2023-05-18T10:15:30.00Z"),
             zoneOffset = ZoneOffset.UTC
@@ -439,7 +439,7 @@ class RecordToObservationMapperTests {
     @Test(expected = IllegalArgumentException::class)
     fun `map throws IllegalArgumentException for unsupported record type`() {
         val record = FloorsClimbedRecord(
-            metadata = Metadata.unknownRecordingMethodWithId(id = "123456"),
+            metadata = Metadata(id = "123456"),
             startTime = Instant.parse("2023-05-18T10:15:30.00Z"),
             endTime = Instant.parse("2023-05-18T11:15:30.00Z"),
             startZoneOffset = ZoneOffset.UTC,

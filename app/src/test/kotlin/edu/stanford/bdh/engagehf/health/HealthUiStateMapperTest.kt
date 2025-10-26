@@ -2,10 +2,10 @@ package edu.stanford.bdh.engagehf.health
 
 import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.records.WeightRecord
-import androidx.health.connect.client.records.metadata.Metadata
 import androidx.health.connect.client.units.Mass
 import com.google.common.truth.Truth.assertThat
 import edu.stanford.bdh.engagehf.R
+import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.Metadata
 import edu.stanford.bdh.engagehf.modules.utils.LocaleProvider
 import edu.stanford.bdh.engagehf.modules.utils.TimeProvider
 import edu.stanford.bdh.engagehf.modules.utils.extensions.roundToDecimalPlaces
@@ -260,7 +260,7 @@ class HealthUiStateMapperTest {
             ).toInstant(),
             zoneOffset = zonedDateTime.offset,
             weight = Mass.kilograms(weightInKg),
-            metadata = Metadata.manualEntry()
+            metadata = Metadata()
         )
     }
 

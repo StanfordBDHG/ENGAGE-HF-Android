@@ -1,7 +1,6 @@
 package edu.stanford.bdh.engagehf.health.heartrate.bottomsheet
 
 import androidx.health.connect.client.records.HeartRateRecord
-import androidx.health.connect.client.records.metadata.Metadata
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,6 +8,7 @@ import edu.stanford.bdh.engagehf.R
 import edu.stanford.bdh.engagehf.bluetooth.component.AppScreenEvents
 import edu.stanford.bdh.engagehf.health.HealthRepository
 import edu.stanford.bdh.engagehf.health.time.TimePickerStateMapper
+import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.Metadata
 import edu.stanford.bdh.engagehf.modules.utils.MessageNotifier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -83,7 +83,7 @@ internal class AddHeartRateBottomSheetViewModel @Inject constructor(
                         heartRate.toLong()
                     )
                 ),
-                metadata = Metadata.manualEntry(),
+                metadata = Metadata()
             ).also { heartRate ->
                 viewModelScope.launch {
                     healthRepository.saveRecord(heartRate).onFailure {

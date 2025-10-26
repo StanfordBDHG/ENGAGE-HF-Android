@@ -1,7 +1,6 @@
 package edu.stanford.bdh.engagehf.health.weight.bottomsheet
 
 import androidx.health.connect.client.records.WeightRecord
-import androidx.health.connect.client.records.metadata.Metadata
 import androidx.health.connect.client.units.Mass
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +9,7 @@ import edu.stanford.bdh.engagehf.R
 import edu.stanford.bdh.engagehf.bluetooth.component.AppScreenEvents
 import edu.stanford.bdh.engagehf.health.HealthRepository
 import edu.stanford.bdh.engagehf.health.time.TimePickerStateMapper
+import edu.stanford.bdh.engagehf.modules.healthconnectonfhir.Metadata
 import edu.stanford.bdh.engagehf.modules.utils.LocaleProvider
 import edu.stanford.bdh.engagehf.modules.utils.MessageNotifier
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -89,7 +89,7 @@ class AddWeightBottomSheetViewModel @Inject internal constructor(
                 },
                 time = timePickerStateMapper.mapInstant(timePickerState),
                 zoneOffset = null,
-                metadata = Metadata.manualEntry(),
+                metadata = Metadata()
             ).let {
                 viewModelScope.launch {
                     healthRepository.saveRecord(it).onFailure {
