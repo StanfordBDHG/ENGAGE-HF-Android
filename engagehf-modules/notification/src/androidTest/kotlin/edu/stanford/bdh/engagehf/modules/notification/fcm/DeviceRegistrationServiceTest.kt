@@ -99,16 +99,17 @@ class DeviceRegistrationServiceTest {
     }
 
     @Test
-    fun `it should trigger registerDevice if same token is stored but app version changed`() {
+    fun `it should trigger registerDevice if same token is stored but os version changed`() {
         // given
         val token = "stored_token"
+        every { buildInfo.getOsVersion() } returns "1"
         val storedBody = notificationTokenBody(token)
         storage.putSerializable(storageKey, storedBody)
-        packageInfo.versionName = "new-version-name"
         val map = slot<Map<String, String>>()
         coEvery {
             functions.getHttpsCallable(registerFunction).call(capture(map))
         } returns mockTask(mockk())
+        every { buildInfo.getOsVersion() } returns "2"
         val newBody = notificationTokenBody(token)
 
         // when
