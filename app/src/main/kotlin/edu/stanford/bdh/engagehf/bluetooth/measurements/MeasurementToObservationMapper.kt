@@ -76,16 +76,19 @@ internal class MeasurementToObservationMapper @Inject constructor(
     }
 
     private fun createInstant(measurement: Measurement.BloodPressure): Instant {
+        val now = timeProvider.nowInstant()
         return runCatching {
-            LocalDateTime.of(
+            val localTime = LocalDateTime.of(
                 measurement.timestampYear,
                 measurement.timestampMonth,
                 measurement.timestampDay,
                 measurement.timeStampHour,
                 measurement.timeStampMinute,
                 measurement.timeStampSecond
-            ).toInstant(currentZoneOffset)
+            )
+            val measurementInstant = localTime.toInstant(currentZoneOffset)
+            if (measurementInstant.isAfter(now)) now else measurementInstant
             // using now instant in case device sent an invalid timestamp
-        }.getOrDefault(timeProvider.nowInstant())
+        }.getOrDefault(now)
     }
 }
