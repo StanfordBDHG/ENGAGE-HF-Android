@@ -19,6 +19,7 @@ import org.junit.Before
 import org.junit.Test
 import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 
@@ -113,6 +114,38 @@ class MeasurementToObservationMapperTest {
         // given
         val measurement = createBloodPressure(
             timestampYear = 0,
+            timestampMonth = 0,
+            timestampDay = 0,
+            timeStampHour = 0,
+            timeStampMinute = 0,
+        )
+        val expectedTime = now
+        val observation = Observation()
+        val slots = mutableListOf<Record>()
+
+        every {
+            recordToObservationMapper.map(capture(slots))
+        } returns listOf(observation)
+
+        // when
+        val result = mapper.map(measurement)
+        val capturedHeartRateRecord = slots.first() as HeartRateRecord
+        val capturedBloodPressureRecord = slots.last() as BloodPressureRecord
+
+        // then
+        assertThat(capturedHeartRateRecord.startTime).isEqualTo(expectedTime)
+        assertThat(capturedHeartRateRecord.endTime).isEqualTo(expectedTime)
+        assertThat(capturedBloodPressureRecord.time).isEqualTo(expectedTime)
+        assertThat(capturedBloodPressureRecord.zoneOffset).isEqualTo(offset)
+        assertThat(result.size).isEqualTo(2)
+        assertThat(result).containsExactlyElementsIn(listOf(observation, observation))
+    }
+
+    @Test
+    fun `it should map blood pressure with fallback time if measurement timestamp is in the future`() {
+        // given
+        val measurement = createBloodPressure(
+            timestampYear = 1 + now.atZone(ZoneId.systemDefault()).year,
             timestampMonth = 0,
             timestampDay = 0,
             timeStampHour = 0,
