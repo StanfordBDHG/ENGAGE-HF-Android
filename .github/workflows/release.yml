@@ -23,7 +23,7 @@ jobs:
     permissions:
       actions: read
       checks: write
-      contents: read
+      contents: write
       packages: read
       security-events: write
     secrets: inherit
